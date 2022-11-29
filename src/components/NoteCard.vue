@@ -14,19 +14,16 @@
       </section>
     </template>
     <template #content>
-      <section class="listGoals">
-        <ul class="list create-todo">
-          <template v-for="goal in myGoals_asc" :key="goal.createdAt">
+      <ul class="content-todo">
+        <template v-for="goal in myGoals_asc" :key="goal.createdAt">
+          <div class="actions list">
             <li v-if="!goal.disable">
               {{ goal.name }}
-              <Button class="delete" @click="removeGoal(goal)">Apagar</Button>
             </li>
-            <div class="actions">
-              <Button class="delete" @click="removeGoal(goal)">Apagar</Button>
-            </div>
-          </template>
-        </ul>
-      </section>
+            <Button class="delete" @click="removeGoal(goal)">Apagar</Button>
+          </div>
+        </template>
+      </ul>
     </template>
   </Card>
 </template>
@@ -69,6 +66,10 @@ const myGoals_asc = computed(() =>
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.content-todo {
+  display: block;
 }
 
 .new-todo {
