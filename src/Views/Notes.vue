@@ -1,67 +1,65 @@
 <template>
-  <h3>Notas</h3>
-  <div class="mini-box">
-    <InputText type="text" v-model="textgoal" /> {{ textgoal }}
-    <Button icon="pi pi-check" class="p-button-rounded" @click="insertGoal" />
-  </div>
-  <div>
-    <ul>
-      <template v-for="( goal) in goals" :key="goal.id">
-        <li v-if="goal.disable === 1">{{ goal.field }}<Button icon="pi pi-trash" class="p-button-rounded"
-            @click="deleteGoal(goal.id)" />
-        </li>
-      </template>
-    </ul>
-  </div>
+  <main class="app">
+    <section class="greeting">
+      <h2 class="title">
+        Notas e Lembretes
+      </h2>
+    </section>
+    <section class="create-todo">
+        <form @submit.prevent="addTodo">
+          <input
+            v-model="newGoal"
+            placeholder="Qual sua nota ou lembrete?"
+            class="new-todo"
+            type="text"
+          >
+          <Button type="submit">Adicionar</Button>
+        </form>
+    </section>
+    <section class="listGoals">
+      <div class="list">
+        <template v-for="goal in myGoals_asc" :key="goal.createdAt">
+          <div v-if="!goal.disable">{{goal.name}}</div>
+          <div class="actions">
+            <Button class="delete" @click="removeGoal(goal)">Apagar</Button>
+          </div>
+            
+        </template>
+      </div>
+    </section>
+  </main>
+  
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { ref, computed } from "vue";
+import { v4 as uuidv4 } from 'uuid';
 
-const textgoal = ref()
+const newGoal = ref();
+const myGoals = ref([])
 
-let goals = reactive([{
-  "id": 1,
-  "field": "um",
-  "disable": 1
-},
-{
-  "id": 2,
-  "field": "dois",
-  "disable": 1
-}])
-
-const insertGoal = () => {
-  if (![null, undefined, 0, " "].includes(textgoal.value)) {
-    goals.push({ "id": goals.length, "field": textgoal.value, "disable": 1 }),
-      textgoal = ""
-    return
+const addTodo = () => {
+  if(newGoal.value.trim().includes(["",undefined, null])) {
+    console.log("Vazio")
+    return 
   }
+  myGoals.value.push({
+    id: uuidv4(),
+    name:newGoal.value,
+    done: false,
+    disable: false,
+    createdAt: new Date().getTime(),
+  })
+  console.log(myGoals.value)
 }
 
-const deleteGoal = (id) => {
-  console.log(id)
-  goals.filter(item => {
-    item.id == id ? item.disable = 0 : item.disable
-  })
-  goals.push({ "field": textgoal.value, "disable": 1 }),
-    textgoal = ""
-  return
-}
+  const removeGoal = (goal) => {
+    myGoals.value = myGoals.value.filter(item => item.id !== goal.id)
+
+  }
+
+const myGoals_asc = computed(() => myGoals.value.sort((a,b) => {
+  return b.createdAt - a.createdAt
+}))
 
 </script>
-
-<style scoped>
-.mini-box {
-  width: 500px;
-  height: 100px;
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.mini-box button {
-  margin-left: 20px;
-}
-</style>
