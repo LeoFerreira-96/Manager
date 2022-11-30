@@ -1,5 +1,14 @@
 <template>
-  <Card style="width: 25em">
+  <Card class="card-goal">
+    <template #header>
+      <div class="header-card">
+        <Button
+          icon="pi pi-times"
+          class="p-button-rounded p-button-danger p-button-outlined total-rigth"
+          @click="closeList"
+        />
+      </div>
+    </template>
     <template #title>
       <section>
         <form @submit.prevent="addTodo" class="create-todo">
@@ -35,6 +44,8 @@ import { v4 as uuidv4 } from "uuid";
 const newGoal = ref();
 const myGoals = ref([]);
 
+const emit = defineEmits(["closeList"]);
+
 const addTodo = () => {
   if (newGoal.value.trim().includes(["", undefined, null])) {
     console.log("Vazio");
@@ -52,6 +63,10 @@ const addTodo = () => {
 
 const removeGoal = (goal) => {
   myGoals.value = myGoals.value.filter((item) => item.id !== goal.id);
+};
+
+const closeList = () => {
+  emit("closeList");
 };
 
 const myGoals_asc = computed(() =>
@@ -82,5 +97,18 @@ const myGoals_asc = computed(() =>
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.header-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 15px;
+}
+
+.card-goal {
+  min-width: 375px;
+  padding: 1px;
+  margin: 20px;
 }
 </style>
