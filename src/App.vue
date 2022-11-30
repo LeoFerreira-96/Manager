@@ -1,6 +1,5 @@
 
 <template>
-<div class="body">
   <TabView>
     <TabPanel header="Resumo">
       <Resume />
@@ -15,21 +14,18 @@
       <Configurations />
     </TabPanel>
   </TabView>
-  </div>
 </template>
 
 <script setup>
-import Notes from './Views/Notes.vue';
+import Resume from "./Views/Resume.vue";
+import Notes from "./Views/Notes.vue";
+import Invoices from "./Views/Invoices.vue";
+import Configurations from "./Views/Configurations.vue";
 </script>
 
-<style scoped>
-.body {
-  margin:50px 200px;
-  padding: 20px;
+<style>
+.p-tabview-nav {
   display: flex;
   justify-content: center;
-  height: 650px;
-  border-radius: 20px;
-  border: 1px solid #5f5c5c ;
 }
 </style>
