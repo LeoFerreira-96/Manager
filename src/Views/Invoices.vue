@@ -1,7 +1,7 @@
 <template>
   <main class="app">
     <section class="greeting">
-      <h2 class="title">Contas</h2>
+      <h2 class="title">Em desenvolvimento</h2>
     </section>
   </main>
 </template>
